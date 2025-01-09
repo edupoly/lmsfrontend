@@ -35,11 +35,11 @@ const router = createBrowserRouter([
         element:<Loginpage></Loginpage>
       },
       {
-        path:"/adimindashbord",
+        path:"/manegerdashbord",
         element:<Admindashbord/>
       },
       {
-        path:"/manegerdashbord",
+        path:"/agentdashbord",
         element:<Manegerdashbord/>
       },
       {

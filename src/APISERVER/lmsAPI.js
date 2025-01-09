@@ -82,6 +82,15 @@ export const LmsApi = createApi({
           }
         }),
   }),
+    getintrestrates: builder.query({
+      query: () => ({
+          url: `/intrestrates`,
+          method: 'GET',
+          headers:{
+            'authorization':window.localStorage.getItem('token')
+          }
+        }),
+  }),
   }),
 })
 
@@ -91,5 +100,8 @@ export const { useLoginpageMutation,useAddloanMutation,useSignpageMutation,
   useDownpaymentMutation,
   useLoandisburseMutation,
   useGetuserdetailsQuery,
-  usePaymentloanMutation
+  usePaymentloanMutation,
+  useLazyGetloanQuery,
+  useLazyGetuserdetailsQuery,
+  useGetintrestratesQuery
 } =LmsApi

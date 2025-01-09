@@ -9,11 +9,11 @@ export default function Home() {
     var role= window.localStorage.getItem("role")
     if(window.localStorage.getItem("token")){
       if(role==="admin"){
-        navigate("/adimindashbord")
+        navigate("/manegerdashbord")
       }
       
       if(role==="manager"){
-        navigate("/manegerdashbord")
+        navigate("/agentdashbord")
       }
       if(role==="user"){
         navigate("/userdashbord")

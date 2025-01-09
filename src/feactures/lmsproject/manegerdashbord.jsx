@@ -1,19 +1,95 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Naverbars from './Header'
-import { useDownpaymentMutation, useGetloanQuery } from '../../APISERVER/lmsAPI'
+import { useDownpaymentMutation, useGetloanQuery, useLazyGetloanQuery } from '../../APISERVER/lmsAPI'
 
 export default function Manegerdashbord() {
   var {isLoading,data}= useGetloanQuery()
   console.log(isLoading,data)
   var [dowenpaymentfn]=useDownpaymentMutation()
-  function downpayment(id){
+     var [approvingcount, setapprovingcount] = useState(0)
+     var [dowenpaymentcount, setdowenpaymentcount] = useState(0)
+     var [disbursedcount, setdisbursedcount] = useState(0)
+     var [Emiscount, setEmiscount] = useState(0)
+    var [lazyfn]=useLazyGetloanQuery()
+   
+         useEffect(()=>{
+            var approv=0
+            var disbur=0
+            var downpaym=0
+            var approv=0
+           !isLoading && data?.map((s)=>{
+             var latestcount=[...s.status].sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1))[0].code;
+               console.log("ii",latestcount)
+               if(latestcount=="applied"){
+                 approv=approv+1
+               
+               }
+               
+               if(latestcount=="approved"){
+                  downpaym=downpaym+1
+                
+               }
+               if(latestcount=="downpayment Received"){
+                setdisbursedcount(disbursedcount+1)
+                console.log(disbursedcount)
+               }
+               if(latestcount=="disbursed"){
+                 disbur=disbur+1
+                 
+                  
+               }
+           })
+           setapprovingcount(approv)
+           setEmiscount(disbur)
+           setdowenpaymentcount(downpaym)
+         },[data])
+        
+    function downpayment(id){
     console.log(id)
-    dowenpaymentfn(id).then((res)=>{console.log(res)})
+    dowenpaymentfn(id).then((res)=>{console.log(res)
+      lazyfn().then((r)=>{
+        console.log(r)
+      })
+    })
   }
   return (
     <div>
       <Naverbars></Naverbars>
-      <h1 className='text-center'>Agent dashbord</h1>
+      <div className='d-flex justify-content-around  '>
+        <h1 className=''>  Agent Dashbord</h1>
+        <div className='d-flex m-2 '>
+          <h5 class=" position-relative me-3 ">
+             Aproveing
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {approvingcount}
+              <span class="visually-hidden">unread messages</span>
+            </span>
+          </h5>
+          <h5 class=" position-relative me-3 ">
+             Dowenpayment
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {dowenpaymentcount}
+              <span class="visually-hidden">unread messages</span>
+            </span>
+          </h5>
+          <h5 class="position-relative me-3 ">
+            Disburse
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {disbursedcount}
+              <span class="visually-hidden">unread messages</span>
+            </span>
+          </h5>
+          <h5 class="position-relative me-3 ">
+              Loan sanctioned  
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {Emiscount}
+              <span class="visually-hidden">unread messages</span>
+            </span>
+          </h5>
+
+        </div>
+      </div>
+
       <table className='table table bordered text-center '>
         <thead>
           <tr>
@@ -34,7 +110,7 @@ export default function Manegerdashbord() {
                   {
                   [...d.status].sort((a,b)=>{return a.timestamp<b.timestamp ? 1:-1})[0].code==="applied" &&
                    <>
-                      <button className="btn btn-info">...Waiting for Apporveing</button>
+                      <b className=" text-info">...Waiting for Apporveing</b>
 
                   </>
 
@@ -57,16 +133,14 @@ export default function Manegerdashbord() {
                                     
                   [...d.status].sort((a,b)=>{return a.timestamp<b.timestamp ? 1:-1})[0].code==="downpayment Received" &&
                    <>
-                      <button className="btn btn-warning">...waiting for loan disbursing</button>
+                      <b className="info">...waiting for loan disbursing</b>
                   </>
-              
-
-                    }
+                }
                     {
                                     
                   [...d.status].sort((a,b)=>{return a.timestamp<b.timestamp ? 1:-1})[0].code==="disbursed" &&
                    <>
-                      <button className="btn btn-info">...loan applied success</button>
+                      <b className="text-success">... Loan sanctioned</b>
                   </>
               
 
