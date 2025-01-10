@@ -16,24 +16,24 @@ export default function Admindashbord() {
          var approv=0
          var disbur=0
          var downpaym=0
-         var approv=0
+         
         !isLoading && data?.map((s)=>{
           var latestcount=[...s.status].sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1))[0].code;
             console.log("ii",latestcount)
-            if(latestcount=="applied"){
+            if(latestcount==="applied"){
               approv=approv+1
                
             }
             
-            if(latestcount=="approved"){
+            if(latestcount==="approved"){
                downpaym=downpaym+1
              
             }
-            if(latestcount=="downpayment Received"){
+            if(latestcount==="downpayment Received"){
              setdisbursedcount(disbursedcount+1)
              console.log(disbursedcount)
             }
-            if(latestcount=="disbursed"){
+            if(latestcount==="disbursed"){
               disbur=disbur+1
             }
         })
@@ -64,10 +64,13 @@ export default function Admindashbord() {
   return (
     <div>
       <Naverbars></Naverbars>
-      <div className='d-flex justify-content-around  '>
+        <div className='container'>
+      <div className='row justify-content-between'>
+         <div className='col-12 col-md-6'>
         <h1 className=''>Manager Dashbord</h1>
-        <div className='d-flex m-2 '>
-          <h5 class=" position-relative me-3 ">
+       </div>
+        <div className=' col-12 col-md-6  d-flex  justify-content-start flex-wrap'>
+          <h5 class=" position-relative me-3 mb-2 mb-md-0 ">
              Aproved
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {approvecount}
@@ -97,15 +100,17 @@ export default function Admindashbord() {
           </h5>
 
         </div>
+        </div>
       </div>
-
-      <table className='table table bordered showdow text-center'>
-        <thead>
+    
+          <div className='table-responsive  overflow-x:auto,'>
+      <table className='table table-bordered table-hover showdow-lg text-center'>
+        <thead className='table-dark'>
           <tr>
             <th className='fs-5'>CustomerName</th>
             <th className='fs-5'>Loan Item</th>
             <th className='fs-5'>Product Cost</th>
-            <th className='fs-5'>Stats</th>
+            <th className='fs-5'>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -157,6 +162,7 @@ export default function Admindashbord() {
 
         </tbody>
       </table>
+      </div>
     </div>
   )
 }

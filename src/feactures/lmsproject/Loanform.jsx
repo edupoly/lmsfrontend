@@ -85,7 +85,7 @@ export default function Loanform() {
                                     placeholder="Tenure"
                                     id="tenure"
                                 >
-                                 <option value="">elect intrest</option>
+                                 <option value="">Select intrest</option>
                                   {
             !isLoading && data?.intrestrates.map((lr)=>{
               return <option value={JSON.stringify(lr)}>{`${lr.rateofintrest}% for ${lr.tenure} ${lr.tenuretype}`}</option>
