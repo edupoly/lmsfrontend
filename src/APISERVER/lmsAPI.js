@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const LmsApi = createApi({
   reducerPath: 'LmsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://finance-service-backend-production.up.railway.app' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://lms-backend-production-41bf.up.railway.app' }),
   endpoints: (builder) => ({
     loginpage: builder.mutation({
         query: (user) => ({
